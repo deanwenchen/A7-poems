@@ -2,8 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(dir:*)",
-      "Bash(gh:*)",
-      "Bash(git init:*)",
+      "Bash(python:*)",
+      "Bash(xxd:*)",
       "Bash(git add:*)"
     ]
   }
