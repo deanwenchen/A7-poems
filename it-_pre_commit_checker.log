@@ -1,0 +1,30 @@
+[2026-02-27 13:41:31] Hook 被调用 - Write 操作：
+[2026-02-27 14:39:26] [start] Unknown: command=
+[2026-02-27 14:39:26] [start] Unknown: command=
+[2026-02-27 14:39:27] [parsed] Bash: command=git diff --staged
+[2026-02-27 14:39:27] [tool_mismatch] Bash: command=git status
+taged
+[2026-02-27 14:39:27] [start] Unknown: command=
+[2026-02-27 14:39:27] [parsed] Bash: command=git diff
+[2026-02-27 14:39:27] [tool_mismatch] Bash: command=git diff
+[2026-02-27 14:39:36] [start] Unknown: command=
+[2026-02-27 14:39:36] [parsed] Bash: command=git log --oneline -5
+[2026-02-27 14:39:36] [tool_mismatch] Bash: command=git log --oneline -5
+[2026-02-27 14:40:19] [start] Unknown: command=
+[2026-02-27 14:40:19] [parsed] Bash: command=git add .
+[2026-02-27 14:40:19] [tool_mismatch] Bash: command=git add .
+[2026-02-27 14:40:25] [start] Unknown: command=
+[2026-02-27 14:40:25] [parsed] Bash: command=git add .claude/1.json .gitignore CLAUDE.md "PR 鍞镐粈.txt" *.log
+[2026-02-27 14:40:25] [tool_mismatch] Bash: command=git add .claude/1.json .gitignore CLAUDE.md "PR 鍞镐粈.txt" *.log
+[2026-02-27 14:40:30] [start] Unknown: command=
+[2026-02-27 14:40:30] [parsed] Bash: command=ls -la
+[2026-02-27 14:40:30] [tool_mismatch] Bash: command=ls -la
+[2026-02-27 14:40:36] [start] Unknown: command=
+[2026-02-27 14:40:36] [parsed] Bash: command=git add -A
+[2026-02-27 14:40:36] [tool_mismatch] Bash: command=git add -A
+[2026-02-27 14:40:43] [start] Unknown: command=
+[2026-02-27 14:40:43] [parsed] Bash: command=git add .claude/1.json .gitignore CLAUDE.md "PR 鍛戒护.txt" it-_pre_commit_checker.log notification_desktop.log post_write_hello.log pre_block_dangerous_cmd.log pre_protect_production.log user_prompt_enhance.log
+[2026-02-27 14:40:43] [tool_mismatch] Bash: command=git add .claude/1.json .gitignore CLAUDE.md "PR 鍛戒护.txt" it-_pre_commit_checker.log notification_desktop.log post_write_hello.log pre_block_dangerous_cmd.log pre_protect_production.log user_prompt_enhance.log
+[2026-02-27 14:40:48] [start] Unknown: command=
+[2026-02-27 14:40:48] [parsed] Bash: command=git add .claude/1.json .gitignore CLAUDE.md PR*.txt *.log
+[2026-02-27 14:40:48] [tool_mismatch] Bash: command=git add .claude/1.json .gitignore CLAUDE.md PR*.txt *.log
