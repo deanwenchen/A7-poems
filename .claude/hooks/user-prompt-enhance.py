@@ -171,16 +171,19 @@ def get_enhancement_content() -> str:
     return WRITING_SPEC_TEMPLATE
 
 
-def write_log(log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     写入 Hook 调用日志
 
     Args:
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/no_prompt/simple_response/slash_command/enhancement_injected/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：\n")
+        prompt = input_data.get('prompt', '') if input_data else ''
+        f.write(f"[{timestamp}] [{event}] prompt={prompt[:50] if len(prompt) > 50 else prompt}\n")
 
 
 def main():
@@ -196,40 +199,56 @@ def main():
     6. 如果是写作任务，输出增强内容到上下文
     7. 记录到日志文件
     """
-    # 步骤 1: 解析输入数据
+    # 步骤 1: Hook 启动
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 解析输入数据
     input_data = parse_input()
     if input_data is None:
-        # JSON 解析失败，直接退出
+        # JSON 解析失败，记录日志后退出
+        write_log({}, LOG_FILE, "parse_error")
         sys.exit(0)
 
-    # 步骤 2: 获取用户提示词
+    # 步骤 3: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 4: 获取用户提示词
     user_input = input_data.get('prompt', '').strip()
 
     # 如果没有 prompt 字段，直接退出
     if not user_input:
+        write_log(input_data, LOG_FILE, "no_prompt")
         sys.exit(0)
 
-    # 步骤 3: 过滤简单回复
+    # 步骤 5: 过滤简单回复
     if is_simple_response(user_input):
-        # 不需要增强，静默退出
+        # 不需要增强，记录日志后退出
+        write_log(input_data, LOG_FILE, "simple_response")
         sys.exit(0)
 
-    # 步骤 4: 过滤斜杠命令
+    # 步骤 6: 过滤斜杠命令
     if is_slash_command(user_input):
         # 斜杠命令不需要增强
+        write_log(input_data, LOG_FILE, "slash_command")
         sys.exit(0)
 
-    # 步骤 5: 检测是否是写作任务
+    # 步骤 7: 检测是否是写作任务
     if is_writing_task(user_input):
-        # 步骤 6: 输出增强内容到 stdout（会添加到 AI 上下文中）
+        # 步骤 8: 输出增强内容到 stdout（会添加到 AI 上下文中）
         enhancement = get_enhancement_content()
         print(enhancement)
 
         # 在 stderr 输出状态信息
         print(f"[Hook] 已为写作任务注入规范", file=sys.stderr)
 
-    # 步骤 7: 记录到日志文件
-    write_log(LOG_FILE)
+        # 记录增强注入日志
+        write_log(input_data, LOG_FILE, "enhancement_injected")
+    else:
+        # 非写作任务
+        write_log(input_data, LOG_FILE, "not_writing_task")
+
+    # 步骤 9: 记录到日志文件
+    write_log(input_data, LOG_FILE, "exit")
 
     # 正常退出
     sys.exit(0)

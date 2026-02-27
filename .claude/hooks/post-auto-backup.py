@@ -156,17 +156,21 @@ def create_backup(file_path: str) -> tuple:
         return False, f"⚠️ 备份失败：{e}"
 
 
-def write_log(file_path: str, log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     写入 Hook 调用日志
 
     Args:
-        file_path: 被备份的文件路径
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/tool_mismatch/not_in_backup_dir/backup_created/backup_failed/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：{file_path}\n")
+        tool_name = input_data.get('tool_name', 'Unknown') if input_data else 'Unknown'
+        tool_input = input_data.get('tool_input', {}) if input_data else {}
+        file_path = tool_input.get('file_path', '')
+        f.write(f"[{timestamp}] [{event}] {tool_name}: file_path={file_path}\n")
 
 
 def main():
@@ -181,37 +185,51 @@ def main():
     5. 输出备份状态
     6. 记录到日志文件
     """
-    # 步骤 1: 解析输入数据
+    # 步骤 1: Hook 启动
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出
+        # JSON 解析失败，记录日志后退出
+        write_log({}, LOG_FILE, "parse_error")
         return
 
-    # 步骤 2: 提取字段
+    # 步骤 3: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 4: 提取字段
     tool_name = input_data.get('tool_name', '')
     tool_input = input_data.get('tool_input', {})
     file_path = tool_input.get('file_path', '')
 
-    # 步骤 3: 只处理 Edit 工具
+    # 步骤 5: 只处理 Edit 工具
     if tool_name != 'Edit':
+        write_log(input_data, LOG_FILE, "tool_mismatch")
         return
 
-    # 步骤 4: 检查是否在需要备份的目录中
+    # 步骤 6: 检查是否在需要备份的目录中
     should_backup = is_in_backup_dir(file_path)
 
+    if not should_backup:
+        write_log(input_data, LOG_FILE, "not_in_backup_dir")
+        return
+
     if should_backup and Path(file_path).exists():
-        # 步骤 5: 创建备份
+        # 步骤 7: 创建备份
         success, message = create_backup(file_path)
 
-        # 步骤 6: 输出状态信息到 stderr
+        # 步骤 8: 输出状态信息到 stderr
         if success:
             print(f"[Backup] {message}", file=sys.stderr)
+            write_log(input_data, LOG_FILE, "backup_created")
         else:
             print(f"[Backup] {message}", file=sys.stderr)
+            write_log(input_data, LOG_FILE, "backup_failed")
 
-    # 步骤 7: 记录到日志文件
-    write_log(file_path, LOG_FILE)
+    # 步骤 9: 记录到日志文件
+    write_log(input_data, LOG_FILE, "exit")
 
 
 if __name__ == '__main__':

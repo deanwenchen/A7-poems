@@ -131,17 +131,21 @@ def create_deny_decision(file_path: str, protected_dir: str) -> dict:
     return decision
 
 
-def write_log(file_path: str, log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     写入 Hook 调用日志
 
     Args:
-        file_path: 被拦截的文件路径
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/tool_mismatch/protected_path_detected/path_allowed/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：{file_path}\n")
+        tool_name = input_data.get('tool_name', 'Unknown') if input_data else 'Unknown'
+        tool_input = input_data.get('tool_input', {}) if input_data else {}
+        file_path = tool_input.get('file_path', '')
+        f.write(f"[{timestamp}] [{event}] {tool_name}: file_path={file_path}\n")
 
 
 def setup_utf8_output():
@@ -169,37 +173,45 @@ def main():
     6. 如果受保护，输出拒绝决策；否则允许执行
     7. 记录到日志文件
     """
-    # 步骤 1: 设置 UTF-8 编码输出
+    # 步骤 1: Hook 启动
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 设置 UTF-8 编码输出
     setup_utf8_output()
 
-    # 步骤 2: 解析输入数据
+    # 步骤 3: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出（允许执行）
+        # JSON 解析失败，记录日志后退出（允许执行）
+        write_log({}, LOG_FILE, "parse_error")
         sys.exit(0)
 
-    # 步骤 3: 提取字段
+    # 步骤 4: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 5: 提取字段
     tool_name = input_data.get('tool_name', '')
     tool_input = input_data.get('tool_input', {})
     file_path = tool_input.get('file_path', '')
 
-    # 步骤 4: 只检查 Write 和 Edit 工具
+    # 步骤 6: 只检查 Write 和 Edit 工具
     if tool_name not in ['Write', 'Edit']:
+        write_log(input_data, LOG_FILE, "tool_mismatch")
         sys.exit(0)
 
-    # 步骤 5: 检查是否是受保护路径
+    # 步骤 7: 检查是否是受保护路径
     is_protected, protected_dir = is_protected_path(file_path)
 
     if is_protected:
-        # 步骤 6a: 输出拒绝决策
+        # 步骤 8a: 输出拒绝决策
+        write_log(input_data, LOG_FILE, "protected_path_detected")
         decision = create_deny_decision(file_path, protected_dir)
         print(json.dumps(decision, ensure_ascii=False))
         sys.exit(0)
 
-    # 步骤 6b: 允许执行（静默退出）
-    # 记录到日志文件
-    write_log(file_path, LOG_FILE)
+    # 步骤 8b: 允许执行（静默退出）
+    write_log(input_data, LOG_FILE, "path_allowed")
 
     sys.exit(0)
 

@@ -163,17 +163,20 @@ def create_deny_decision(command: str, pattern: str) -> dict:
     return decision
 
 
-def write_log(command: str, log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     写入 Hook 调用日志
 
     Args:
-        command: 被检查的命令
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/tool_mismatch/dangerous_detected/dangerous_allowed/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：\n")
+        tool_name = input_data.get('tool_name', 'Unknown') if input_data else 'Unknown'
+        tool_input = input_data.get('tool_input', {}) if input_data else {}
+        f.write(f"[{timestamp}] [{event}] {tool_name}: {tool_input}\n")
 
 
 def setup_utf8_output():
@@ -201,37 +204,45 @@ def main():
     6. 如果危险，输出拒绝决策；否则允许执行
     7. 记录到日志文件
     """
-    # 步骤 1: 设置 UTF-8 编码输出
+    # 步骤 1: Hook 启动
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 设置 UTF-8 编码输出
     setup_utf8_output()
 
-    # 步骤 2: 解析输入数据
+    # 步骤 3: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出（允许执行）
+        # JSON 解析失败，记录日志后退出（允许执行）
+        write_log({}, LOG_FILE, "parse_error")
         sys.exit(0)
 
-    # 步骤 3: 提取字段
+    # 步骤 4: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 5: 提取字段
     tool_name = input_data.get('tool_name', '')
     tool_input = input_data.get('tool_input', {})
     command = tool_input.get('command', '')
 
-    # 步骤 4: 只检查 Bash 工具
+    # 步骤 6: 只检查 Bash 工具
     if tool_name != 'Bash':
+        write_log(input_data, LOG_FILE, "tool_mismatch")
         sys.exit(0)
 
-    # 步骤 5: 检查是否匹配危险模式
+    # 步骤 7: 检查是否匹配危险模式
     is_dangerous, matched_pattern = check_dangerous_pattern(command)
 
     if is_dangerous:
-        # 步骤 6a: 输出拒绝决策
+        # 步骤 8a: 输出拒绝决策
+        write_log(input_data, LOG_FILE, "dangerous_detected")
         decision = create_deny_decision(command, matched_pattern)
         print(json.dumps(decision, ensure_ascii=False))
         sys.exit(0)
 
-    # 步骤 6b: 允许执行（静默退出）
-    # 记录到日志文件
-    write_log(command, LOG_FILE)
+    # 步骤 8b: 允许执行（静默退出）
+    write_log(input_data, LOG_FILE, "command_allowed")
 
     sys.exit(0)
 

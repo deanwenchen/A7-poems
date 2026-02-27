@@ -170,17 +170,20 @@ def send_notification(title: str, message: str) -> None:
         print(f"通知发送失败：{e}", file=sys.stderr)
 
 
-def log_notification(message: str, log_path: str) -> None:
+def log_notification(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     记录通知发送日志
 
     Args:
-        message: 通知消息内容
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/no_message/sending_notification/notification_sent/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：\n")
+        message = input_data.get('message', '') if input_data else ''
+        session_id = input_data.get('session_id', '') if input_data else ''
+        f.write(f"[{timestamp}] [{event}] message={message[:50] if len(message) > 50 else message}, session_id={session_id}\n")
 
 
 def main():
@@ -197,35 +200,44 @@ def main():
     # 配置项：日志文件路径
     LOG_FILE = r"D:\Claude\PullRequest\notification_desktop.log"
 
-    # 步骤 1: 解析输入数据
+    # 步骤 1: Hook 启动
+    log_notification({}, LOG_FILE, "start")
+
+    # 步骤 2: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出
+        # JSON 解析失败，记录日志后退出
+        log_notification({}, LOG_FILE, "parse_error")
         return
 
-    # 步骤 2: 提取字段
-    # 注意：输入中没有 notification_type 字段
+    # 步骤 3: 记录输入解析成功
+    log_notification(input_data, LOG_FILE, "parsed")
+
+    # 步骤 4: 提取字段
     message = input_data.get('message', '')
     session_id = input_data.get('session_id', '')
 
-    # 步骤 3: 如果没有消息内容，直接退出
+    # 步骤 5: 如果没有消息内容，直接退出
     if not message:
+        log_notification(input_data, LOG_FILE, "no_message")
         return
 
-    # 步骤 4: 构建通知标题
+    # 步骤 6: 构建通知标题
     title = "Claude Code"
 
-    # 步骤 5: 发送桌面通知
+    # 步骤 7: 发送桌面通知
+    log_notification(input_data, LOG_FILE, "sending_notification")
     send_notification(title, message)
 
-    # 步骤 6: 在 stderr 输出状态信息
-    # 截取消息前 50 个字符用于日志显示
+    # 步骤 8: 在 stderr 输出状态信息
     message_preview = message[:50] if len(message) > 50 else message
     print(f"[Notification] 已发送桌面通知：{message_preview}...", file=sys.stderr)
 
-    # 步骤 7: 记录到日志文件
-    log_notification(message, LOG_FILE)
+    # 步骤 9: 记录到日志文件
+    log_notification(input_data, LOG_FILE, "notification_sent")
+
+    log_notification(input_data, LOG_FILE, "exit")
 
 
 if __name__ == '__main__':

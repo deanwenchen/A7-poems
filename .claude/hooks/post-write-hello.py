@@ -81,19 +81,22 @@ def format_notification_message(tool_name: str, file_path: str) -> str:
     return message
 
 
-def write_log(file_path: str, log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
-    将 Write 操作记录到日志文件
+    将 Hook 调用记录到日志文件
 
     Args:
-        file_path: 被写入的文件路径
+        input_data: 完整的输入数据，包含 tool_name 和 tool_input
         log_path: 日志文件的完整路径
+        event: 事件类型 (call/parse_error/tool_mismatch/notification_sent/exit)
 
     Note:
-        日志格式：[YYYY-MM-DD HH:MM:SS] Hook 被调用 - Write 操作：{文件路径}
+        日志格式：[YYYY-MM-DD HH:MM:SS] [事件] Hook 被调用 - {tool_name}: {完整输入参数}
     """
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    log_entry = f"[{timestamp}] Hook 被调用 - Write 操作：{file_path}\n"
+    tool_name = input_data.get('tool_name', 'Unknown') if input_data else 'Unknown'
+    tool_input = input_data.get('tool_input', {}) if input_data else {}
+    log_entry = f"[{timestamp}] [{event}] {tool_name}: {tool_input}\n"
 
     with open(log_path, 'a', encoding='utf-8') as f:
         f.write(log_entry)
@@ -114,30 +117,39 @@ def main():
     # 配置项：日志文件路径（使用原始字符串避免转义）
     LOG_FILE = r"D:\Claude\PullRequest\post_write_hello.log"
 
-    # 步骤 1: 解析输入数据
+    # 步骤 1: Hook 启动，记录启动日志
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 解析输入数据
     input_data = parse_input()
     if input_data is None:
-        # 输入解析失败，静默退出
+        # 输入解析失败，记录错误日志后退出
+        write_log({}, LOG_FILE, "parse_error")
         sys.exit(0)
 
-    # 步骤 2: 提取关键字段
+    # 步骤 3: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 4: 提取关键字段
     tool_name = input_data.get('tool_name', '')
     tool_input = input_data.get('tool_input', {})
     file_path = tool_input.get('file_path', '')
 
-    # 步骤 3: 只处理 Write 工具
+    # 步骤 5: 只处理 Write 工具
     if tool_name != 'Write':
+        # 工具不匹配，记录日志后退出
+        write_log(input_data, LOG_FILE, "tool_mismatch")
         sys.exit(0)
 
-    # 步骤 4a: 在终端显示通知消息（输出到 stderr）
-    # 使用 stderr 是因为这是诊断/通知信息，不应该与 stdout 的数据混合
+    # 步骤 6: 在终端显示通知消息（输出到 stderr）
     notification = format_notification_message(tool_name, file_path)
     print(notification, file=sys.stderr)
 
-    # 步骤 4b: 写入日志文件，用于审计追踪
-    write_log(file_path, LOG_FILE)
+    # 步骤 7: 写入日志文件，用于审计追踪
+    write_log(input_data, LOG_FILE, "notification_sent")
 
     # 正常退出
+    write_log(input_data, LOG_FILE, "exit")
     sys.exit(0)
 
 

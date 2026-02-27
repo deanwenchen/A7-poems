@@ -192,17 +192,21 @@ def run_formatter(file_path: str) -> str:
         return f"⚠️ 格式化错误：{str(e)}"
 
 
-def write_log(file_path: str, log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     写入 Hook 调用日志
 
     Args:
-        file_path: 被格式化的文件路径
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/tool_mismatch/not_format_needed/formatting/format_success/format_failed/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：{file_path}\n")
+        tool_name = input_data.get('tool_name', 'Unknown') if input_data else 'Unknown'
+        tool_input = input_data.get('tool_input', {}) if input_data else {}
+        file_path = tool_input.get('file_path', '')
+        f.write(f"[{timestamp}] [{event}] {tool_name}: file_path={file_path}\n")
 
 
 def main():
@@ -217,36 +221,54 @@ def main():
     5. 输出格式化状态
     6. 记录到日志文件
     """
-    # 步骤 1: 解析输入数据
+    # 配置项：日志文件路径
+    LOG_FILE = r"D:\Claude\PullRequest\post_auto_format.log"
+
+    # 步骤 1: Hook 启动
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出
+        # JSON 解析失败，记录日志后退出
+        write_log({}, LOG_FILE, "parse_error")
         return
 
-    # 步骤 2: 提取字段
+    # 步骤 3: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 4: 提取字段
     tool_name = input_data.get('tool_name', '')
     tool_input = input_data.get('tool_input', {})
     file_path = tool_input.get('file_path', '')
 
-    # 步骤 3: 只处理 Write 工具
+    # 步骤 5: 只处理 Write 工具
     if tool_name != 'Write':
+        write_log(input_data, LOG_FILE, "tool_mismatch")
         return
 
-    # 步骤 4: 检查是否需要格式化
+    # 步骤 6: 检查是否需要格式化
     if not file_path or not should_format(file_path):
+        write_log(input_data, LOG_FILE, "not_format_needed")
         return
 
-    # 步骤 5: 运行格式化工具
+    # 步骤 7: 运行格式化工具
+    write_log(input_data, LOG_FILE, "formatting")
     result = run_formatter(file_path)
 
-    # 步骤 6: 输出状态信息（如果有返回值）
+    # 步骤 8: 输出状态信息（如果有返回值）
     if result:
         file_name = Path(file_path).name
         print(f"\n[AutoFormat] {file_name}: {result}", file=sys.stderr)
+        # 记录格式化结果
+        if "成功" in result:
+            write_log(input_data, LOG_FILE, "format_success")
+        else:
+            write_log(input_data, LOG_FILE, "format_failed")
 
-    # 步骤 7: 记录到日志文件
-    write_log(file_path, LOG_FILE)
+    # 步骤 9: 记录到日志文件
+    write_log(input_data, LOG_FILE, "exit")
 
 
 if __name__ == '__main__':

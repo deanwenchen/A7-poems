@@ -16,7 +16,8 @@
       "Bash(cmd /c \"C:\\\\\\\\Program Files \\(x86\\)\\\\\\\\GitHub CLI\\\\\\\\gh.exe\" pr create:*)",
       "Bash(cmd:*)",
       "Bash(powershell:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(git cherry-pick:*)"
     ]
   }
 }

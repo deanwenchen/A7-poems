@@ -219,32 +219,53 @@ def main():
     # 配置项：日志文件路径
     LOG_FILE = r"D:\Claude\PullRequest\post_article_quality.log"
 
-    # 步骤 1: 解析输入数据
+    # 步骤 1: Hook 启动
+    with open(LOG_FILE, 'a', encoding='utf-8') as f:
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        f.write(f"[{timestamp}] [start] Hook 启动\n")
+
+    # 步骤 2: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出
+        # JSON 解析失败，记录日志后退出
+        with open(LOG_FILE, 'a', encoding='utf-8') as f:
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            f.write(f"[{timestamp}] [parse_error] JSON 解析失败\n")
         return
 
-    # 步骤 2: 提取关键字段
+    # 步骤 3: 记录输入解析成功
+    with open(LOG_FILE, 'a', encoding='utf-8') as f:
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        tool_name = input_data.get('tool_name', 'Unknown')
+        tool_input = input_data.get('tool_input', {})
+        f.write(f"[{timestamp}] [parsed] {tool_name}: {tool_input}\n")
+
+    # 步骤 4: 提取关键字段
     tool_name = input_data.get('tool_name', '')
     tool_input = input_data.get('tool_input', {})
     file_path = tool_input.get('file_path', '')
 
-    # 步骤 3: 只处理 Write 工具和.md 文件
+    # 步骤 5: 只处理 Write 工具和.md 文件
     if tool_name != 'Write' or not file_path.endswith('.md'):
+        with open(LOG_FILE, 'a', encoding='utf-8') as f:
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            f.write(f"[{timestamp}] [not_markdown_file] {tool_name}: file_path={file_path}\n")
         return
 
-    # 步骤 4: 执行质量检查并获取报告
-    report = check_article_quality(file_path)
-
-    # 步骤 5: 在终端显示报告（输出到 stderr）
-    print(report, file=sys.stderr)
-
-    # 步骤 6: 记录到日志文件
+    # 步骤 6: 执行质量检查并获取报告
     with open(LOG_FILE, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：{file_path}\n")
+        f.write(f"[{timestamp}] [checking_quality] {tool_name}: file_path={file_path}\n")
+    report = check_article_quality(file_path)
+
+    # 步骤 7: 在终端显示报告（输出到 stderr）
+    print(report, file=sys.stderr)
+
+    # 步骤 8: 记录到日志文件
+    with open(LOG_FILE, 'a', encoding='utf-8') as f:
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        f.write(f"[{timestamp}] [quality_check_completed] {tool_name}: file_path={file_path}\n")
 
 
 if __name__ == '__main__':

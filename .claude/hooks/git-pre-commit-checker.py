@@ -291,16 +291,21 @@ def print_report(results: list, all_passed: bool) -> None:
     print("\n" + "=" * 60, file=sys.stderr)
 
 
-def write_log(log_path: str) -> None:
+def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
     """
     写入 Hook 调用日志
 
     Args:
+        input_data: 完整的输入数据
         log_path: 日志文件路径
+        event: 事件类型 (start/parse_error/tool_mismatch/check_started/check_passed/check_failed/exit)
     """
     with open(log_path, 'a', encoding='utf-8') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        f.write(f"[{timestamp}] Hook 被调用 - Write 操作：\n")
+        tool_name = input_data.get('tool_name', 'Unknown') if input_data else 'Unknown'
+        tool_input = input_data.get('tool_input', {}) if input_data else {}
+        command = tool_input.get('command', '')
+        f.write(f"[{timestamp}] [{event}] {tool_name}: command={command}\n")
 
 
 def main():
@@ -318,37 +323,49 @@ def main():
     # 配置项：日志文件路径
     LOG_FILE = r"D:\Claude\PullRequest\it-_pre_commit_checker.log"
 
-    # 步骤 1: 解析输入数据
+    # 步骤 1: Hook 启动
+    write_log({}, LOG_FILE, "start")
+
+    # 步骤 2: 解析输入数据
     try:
         input_data = json.loads(sys.stdin.read())
     except json.JSONDecodeError:
-        # JSON 解析失败，静默退出
+        # JSON 解析失败，记录日志后退出
+        write_log({}, LOG_FILE, "parse_error")
         return
 
-    # 步骤 2: 提取字段
+    # 步骤 3: 记录输入解析成功
+    write_log(input_data, LOG_FILE, "parsed")
+
+    # 步骤 4: 提取字段
     tool_name = input_data.get('tool_name', '')
     command = input_data.get('tool_input', {}).get('command', '')
 
-    # 步骤 3: 只处理 git commit 命令
+    # 步骤 5: 只处理 git commit 命令
     if tool_name != 'Bash' or 'git commit' not in command:
+        write_log(input_data, LOG_FILE, "tool_mismatch")
         return
 
-    # 步骤 4: 定义所有检查
+    # 步骤 6: 定义所有检查
     checks = [
         ('分支检查', check_branch),
         ('敏感信息', check_secrets),
         ('代码风格', check_lint),
     ]
 
-    # 步骤 5: 并行执行检查
+    # 步骤 7: 开始执行检查
+    write_log(input_data, LOG_FILE, "check_started")
+
+    # 步骤 8: 并行执行检查
     results, all_passed = run_checks_parallel(checks)
 
-    # 步骤 6: 输出检查报告
+    # 步骤 9: 输出检查报告
     print_report(results, all_passed)
 
-    # 步骤 7: 根据检查结果输出决策
+    # 步骤 10: 根据检查结果输出决策
     if not all_passed:
         # 检查未通过，要求用户确认
+        write_log(input_data, LOG_FILE, "check_failed")
         decision = {
             "decision": "ask",
             "message": "检查未通过，是否仍要继续提交？"
@@ -356,10 +373,11 @@ def main():
         print(json.dumps(decision, ensure_ascii=False))
     else:
         # 所有检查通过
+        write_log(input_data, LOG_FILE, "check_passed")
         print("所有检查通过，允许提交", file=sys.stderr)
 
-    # 步骤 8: 记录到日志文件
-    write_log(LOG_FILE)
+    # 步骤 11: 记录到日志文件
+    write_log(input_data, LOG_FILE, "exit")
 
 
 if __name__ == '__main__':
