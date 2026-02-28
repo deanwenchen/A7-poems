@@ -19,7 +19,11 @@
       "Bash(git checkout:*)",
       "Bash(git cherry-pick:*)",
       "Bash(git reset:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(\"C:\\\\Users\\\\Lenovo\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python311\\\\Scripts\\\\yt-dlp.exe\" -f \"bestvideo[height<=1080]+bestaudio\" \"https://www.youtube.com/watch?v=3DV1EvkCV3A&list=PLPA49Pz3BAxNX_KZ2x-35HpoBDw9LJQAR\")"
     ]
   }
 }
