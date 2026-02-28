@@ -29,9 +29,7 @@ echo {"message":"任务完成！","session_id":"test123"} | python notification-
 JSON 格式，通过 stdin 传入：
 {
     "message": "任务完成！",      # 通知消息内容
-    "session_id": "test123",     # 会话 ID（可选）
-    "trigger_program": "pre-commit-check",  # 触发程序/钩子名称（可选）
-    "notification_type": "complete"         # 通知类型：confirm/complete/info/warning/error（可选）
+    "session_id": "test123"      # 会话 ID（可选）
 }
 
 【输出格式】
@@ -56,6 +54,7 @@ import sys
 import json
 import subprocess
 import platform
+import os
 from datetime import datetime
 
 
@@ -185,9 +184,7 @@ def log_notification(input_data: dict, log_path: str, event: str = "call") -> No
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         message = input_data.get('message', '') if input_data else ''
         session_id = input_data.get('session_id', '') if input_data else ''
-        trigger_program = input_data.get('trigger_program', 'Unknown')
-        notification_type = input_data.get('notification_type', 'info')
-        f.write(f"[{timestamp}] [{event}] program={trigger_program}, type={notification_type}, message={message[:50] if len(message) > 50 else message}, session_id={session_id}\n")
+        f.write(f"[{timestamp}] [{event}] message={message[:50] if len(message) > 50 else message}, session_id={session_id}\n")
 
 
 def main():
@@ -221,29 +218,21 @@ def main():
     # 步骤 4: 提取字段
     message = input_data.get('message', '')
     session_id = input_data.get('session_id', '')
-    trigger_program = input_data.get('trigger_program', 'Unknown')  # 触发程序/钩子名称
-    notification_type = input_data.get('notification_type', 'info')  # 通知类型：confirm(确认)/complete(完成)/info(信息)
+
+    # 获取工作目录作为会话标识（区分不同 Claude 窗口）
+    cwd = os.getcwd()
+    # 取最后一级目录名作为标识
+    project_name = os.path.basename(cwd) if cwd else 'unknown'
 
     # 步骤 5: 如果没有消息内容，直接退出
     if not message:
         log_notification(input_data, LOG_FILE, "no_message")
         return
 
-    # 步骤 6: 构建通知标题和类型标识
-    # 通知类型映射
-    type_icons = {
-        'confirm': '[确认]',
-        'complete': '[完成]',
-        'info': '[信息]',
-        'warning': '[警告]',
-        'error': '[错误]'
-    }
-    type_icon = type_icons.get(notification_type, '[信息]')
+    # 步骤 6: 构建通知标题（用 [] 包裹项目名）
+    title = f"[{project_name}] {message[:30]}" if len(message) > 30 else f"[{project_name}] {message}"
 
-    # 构建完整标题：[类型] 程序名
-    title = f"{type_icon} {trigger_program}"
-
-    # 步骤 7: 发送桌面通知
+    # 步骤 7: 发送桌面通知（标题包含项目名，内容是完整消息）
     log_notification(input_data, LOG_FILE, "sending_notification")
     send_notification(title, message)
 
