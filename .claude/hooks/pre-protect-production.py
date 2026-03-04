@@ -69,8 +69,12 @@ from datetime import datetime
 # 受保护的目录列表（路径中包含这些目录名的文件都会被保护）
 PROTECTED_DIRS = ['production/', 'prod/', '.env']
 
-# 日志文件路径
-LOG_FILE = r"D:\Claude\PullRequest\pre_protect_production.log"
+# 日志文件路径（项目根目录下的 hookslog 文件夹）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+LOG_DIR = os.path.join(PROJECT_ROOT, 'hookslog')
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, 'pre_protect_production.log')
 
 
 def normalize_path(file_path: str) -> str:

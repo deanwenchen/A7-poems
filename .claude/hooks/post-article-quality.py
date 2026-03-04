@@ -51,6 +51,7 @@ Claude Code Hook System
 """
 import sys
 import json
+import os
 from pathlib import Path
 from datetime import datetime
 
@@ -216,8 +217,13 @@ def main():
     4. 在 stderr 输出检查报告
     5. 记录到日志文件
     """
-    # 配置项：日志文件路径
-    LOG_FILE = r"D:\Claude\PullRequest\post_article_quality.log"
+    # 配置项：日志文件路径（项目根目录下的 hookslog 文件夹）
+    import os
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    log_dir = os.path.join(project_root, 'hookslog')
+    os.makedirs(log_dir, exist_ok=True)
+    LOG_FILE = os.path.join(log_dir, 'post_article_quality.log')
 
     # 步骤 1: Hook 启动
     with open(LOG_FILE, 'a', encoding='utf-8') as f:

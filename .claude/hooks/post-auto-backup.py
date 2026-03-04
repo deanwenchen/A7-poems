@@ -67,6 +67,7 @@ Claude Code Hook System
 import sys
 import json
 import shutil
+import os
 from pathlib import Path
 from datetime import datetime
 
@@ -78,8 +79,12 @@ from datetime import datetime
 # 需要备份的目录列表（文件路径中包含这些目录名就会触发备份）
 BACKUP_DIRS = ['config', 'src', 'docs', '.claude']
 
-# 日志文件路径
-LOG_FILE = r"D:\Claude\PullRequest\post_auto_backup.log"
+# 日志文件路径（项目根目录下的 hookslog 文件夹）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+LOG_DIR = os.path.join(PROJECT_ROOT, 'hookslog')
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, 'post_auto_backup.log')
 
 
 def is_in_backup_dir(file_path: str) -> bool:

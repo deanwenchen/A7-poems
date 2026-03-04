@@ -320,8 +320,12 @@ def main():
     5. 根据检查结果决定是否拦截提交
     6. 记录到日志文件
     """
-    # 配置项：日志文件路径
-    LOG_FILE = r"D:\Claude\PullRequest\it-_pre_commit_checker.log"
+    # 配置项：日志文件路径（项目根目录下的 hookslog 文件夹）
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    log_dir = os.path.join(project_root, 'hookslog')
+    os.makedirs(log_dir, exist_ok=True)
+    LOG_FILE = os.path.join(log_dir, 'it-_pre_commit_checker.log')
 
     # 步骤 1: Hook 启动
     write_log({}, LOG_FILE, "start")

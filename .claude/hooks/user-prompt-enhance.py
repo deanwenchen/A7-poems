@@ -64,6 +64,7 @@ Claude Code Hook System
 """
 import sys
 import json
+import os
 from datetime import datetime
 
 
@@ -87,8 +88,12 @@ WRITING_SPEC_TEMPLATE = """
 4. **检查**：完成后运行 /pre-check 进行质量检查
 ---"""
 
-# 日志文件路径
-LOG_FILE = r"D:\Claude\PullRequest\user_prompt_enhance.log"
+# 日志文件路径（项目根目录下的 hookslog 文件夹）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+LOG_DIR = os.path.join(PROJECT_ROOT, 'hookslog')
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, 'user_prompt_enhance.log')
 
 
 def parse_input() -> dict:

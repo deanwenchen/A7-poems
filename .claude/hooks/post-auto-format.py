@@ -70,6 +70,7 @@ Claude Code Hook System
 import sys
 import json
 import subprocess
+import os
 from pathlib import Path
 from datetime import datetime
 
@@ -93,8 +94,12 @@ FORMATTERS = {
 # 需要排除的目录（这些目录下的文件不会被格式化）
 EXCLUDED_DIRS = {'node_modules', 'venv', '.venv', '__pycache__', 'dist', 'build', '.git'}
 
-# 日志文件路径
-LOG_FILE = r"D:\Claude\PullRequest\post_auto_format.log"
+# 日志文件路径（项目根目录下的 hookslog 文件夹）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+LOG_DIR = os.path.join(PROJECT_ROOT, 'hookslog')
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, 'post_auto_format.log')
 
 
 def is_excluded_path(file_path: str) -> bool:
@@ -221,8 +226,12 @@ def main():
     5. 输出格式化状态
     6. 记录到日志文件
     """
-    # 配置项：日志文件路径
-    LOG_FILE = r"D:\Claude\PullRequest\post_auto_format.log"
+    # 配置项：日志文件路径（项目根目录下的 hookslog 文件夹）
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    log_dir = os.path.join(project_root, 'hookslog')
+    os.makedirs(log_dir, exist_ok=True)
+    LOG_FILE = os.path.join(log_dir, 'post_auto_format.log')
 
     # 步骤 1: Hook 启动
     write_log({}, LOG_FILE, "start")

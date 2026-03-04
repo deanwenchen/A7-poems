@@ -41,6 +41,7 @@ Claude Code Hook System
 """
 import sys
 import json
+import os
 from datetime import datetime
 
 
@@ -114,8 +115,13 @@ def main():
        b. 将操作记录到日志文件
     4. 正常退出
     """
-    # 配置项：日志文件路径（使用原始字符串避免转义）
-    LOG_FILE = r"D:\Claude\PullRequest\post_write_hello.log"
+    # 配置项：日志文件路径（项目根目录下的 hookslog 文件夹）
+    import os
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    log_dir = os.path.join(project_root, 'hookslog')
+    os.makedirs(log_dir, exist_ok=True)
+    LOG_FILE = os.path.join(log_dir, 'post_write_hello.log')
 
     # 步骤 1: Hook 启动，记录启动日志
     write_log({}, LOG_FILE, "start")

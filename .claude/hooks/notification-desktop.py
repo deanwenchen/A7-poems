@@ -198,8 +198,13 @@ def main():
     4. 调用系统通知 API 发送桌面通知
     5. 记录到日志文件
     """
-    # 配置项：日志文件路径
-    LOG_FILE = r"D:\Claude\PullRequest\notification_desktop.log"
+    # 配置项：日志文件路径（项目根目录下的 hookslog 文件夹）
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)  # 返回到项目根目录
+    log_dir = os.path.join(project_root, 'hookslog')
+    # 确保日志目录存在
+    os.makedirs(log_dir, exist_ok=True)
+    LOG_FILE = os.path.join(log_dir, 'notification_desktop.log')
 
     # 步骤 1: Hook 启动
     log_notification({}, LOG_FILE, "start")

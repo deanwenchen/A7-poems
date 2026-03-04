@@ -76,6 +76,7 @@ import sys
 import io
 import json
 import re
+import os
 from datetime import datetime
 
 
@@ -105,8 +106,12 @@ DANGEROUS_PATTERNS = [
     r'chmod\s+-R\s+777\s+/',
 ]
 
-# 日志文件路径
-LOG_FILE = r"D:\Claude\PullRequest\pre_block_dangerous_cmd.log"
+# 日志文件路径（项目根目录下的 hookslog 文件夹）
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+LOG_DIR = os.path.join(PROJECT_ROOT, 'hookslog')
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_FILE = os.path.join(LOG_DIR, 'pre_block_dangerous_cmd.log')
 
 
 def normalize_command(command: str) -> str:
