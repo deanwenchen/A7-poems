@@ -185,10 +185,12 @@ def write_log(input_data: dict, log_path: str, event: str = "call") -> None:
         log_path: 日志文件路径
         event: 事件类型 (start/parse_error/no_prompt/simple_response/slash_command/enhancement_injected/exit)
     """
-    with open(log_path, 'a', encoding='utf-8') as f:
+    with open(log_path, 'a', encoding='utf-8', errors='replace') as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         prompt = input_data.get('prompt', '') if input_data else ''
-        f.write(f"[{timestamp}] [{event}] prompt={prompt[:50] if len(prompt) > 50 else prompt}\n")
+        # 清理无效字符
+        safe_prompt = prompt.encode('utf-8', errors='replace').decode('utf-8')
+        f.write(f"[{timestamp}] [{event}] prompt={safe_prompt[:50] if len(safe_prompt) > 50 else safe_prompt}\n")
 
 
 def main():

@@ -1,0 +1,14 @@
+[2026-03-04 18:00:54] [start] tool=, input={}
+[2026-03-04 18:00:54] [parsed] tool=Bash, input={'command': 'echo "娴嬭瘯浠诲姟瀹屾垚閫氱煡"', 'description': '娴嬭瘯 post-task-complete hook'}
+[2026-03-04 18:00:54] [sending_notification] tool=Bash, input={'command': 'echo "娴嬭瘯浠诲姟瀹屾垚閫氱煡"', 'description': '娴嬭瘯 post-task-complete hook'}
+[2026-03-04 18:00:56] [notification_sent] tool=Bash, input={'command': 'echo "娴嬭瘯浠诲姟瀹屾垚閫氱煡"', 'description': '娴嬭瘯 post-task-complete hook'}
+[2026-03-04 18:01:14] [start] tool=, input={}
+[2026-03-04 18:01:14] [parsed] tool=Task, input={'description': '鎼滅储椤圭洰涓\udcad鐨勬枃浠\udcb6', 'prompt': '蹇\udcab閫熸悳绱㈤」鐩\udcae涓\udcad鏈夊摢浜\udc9b .txt 鏂囦欢锛屽垪鍑烘枃浠跺悕鍗冲彲', 'subagent_type': 'Explore'}
+[2026-03-04 18:01:14] [sending_notification] tool=Task, input={'description': '鎼滅储椤圭洰涓\udcad鐨勬枃浠\udcb6', 'prompt': '蹇\udcab閫熸悳绱㈤」鐩\udcae涓\udcad鏈夊摢浜\udc9b .txt 鏂囦欢锛屽垪鍑烘枃浠跺悕鍗冲彲', 'subagent_type': 'Explore'}
+[2026-03-04 18:01:17] [notification_sent] tool=Task, input={'description': '鎼滅储椤圭洰涓\udcad鐨勬枃浠\udcb6', 'prompt': '蹇\udcab閫熸悳绱㈤」鐩\udcae涓\udcad鏈夊摢浜\udc9b .txt 鏂囦欢锛屽垪鍑烘枃浠跺悕鍗冲彲', 'subagent_type': 'Explore'}
+[2026-03-06 10:24:29] [start] tool=, input={}
+[2026-03-06 10:24:29] [parse_error] tool=, input={}
+[2026-03-06 10:25:16] [start] tool=, input={}
+[2026-03-06 10:25:16] [parsed] tool=Bash, input={'command': 'dir configproject', 'description': 'List contents of configproject directory'}
+[2026-03-06 10:25:16] [sending_notification] tool=Bash, input={'command': 'dir configproject', 'description': 'List contents of configproject directory'}
+[2026-03-06 10:25:19] [notification_sent] tool=Bash, input={'command': 'dir configproject', 'description': 'List contents of configproject directory'}

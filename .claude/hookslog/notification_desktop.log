@@ -1,0 +1,110 @@
+[2026-02-28 12:00:41] [start] message=, session_id=
+[2026-02-28 12:00:41] [parsed] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 12:00:41] [sending_notification] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 12:00:44] [notification_sent] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 12:00:44] [exit] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:36:20] [start] message=, session_id=
+[2026-02-28 13:36:20] [parsed] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:36:20] [sending_notification] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:36:24] [notification_sent] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:36:24] [exit] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:37:02] [start] message=, session_id=
+[2026-02-28 13:37:02] [parsed] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:37:02] [sending_notification] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:37:06] [notification_sent] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:37:06] [exit] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:38:12] [start] message=, session_id=
+[2026-02-28 13:38:12] [parsed] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:38:12] [sending_notification] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:38:16] [notification_sent] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:38:16] [exit] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:41:52] [start] message=, session_id=
+[2026-02-28 13:41:52] [parsed] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:41:52] [sending_notification] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:41:55] [notification_sent] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-02-28 13:41:55] [exit] message=Claude needs your permission to use Bash, session_id=610c7e5f-287a-42fd-8051-201e5f2a2932
+[2026-03-04 14:37:55] [start] message=, session_id=
+[2026-03-04 14:37:55] [parsed] message=Claude needs your permission to use Write, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:37:55] [sending_notification] message=Claude needs your permission to use Write, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:37:58] [notification_sent] message=Claude needs your permission to use Write, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:37:58] [exit] message=Claude needs your permission to use Write, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:39:12] [start] message=, session_id=
+[2026-03-04 14:39:12] [parsed] message=Claude is waiting for your input, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:39:12] [sending_notification] message=Claude is waiting for your input, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:39:14] [notification_sent] message=Claude is waiting for your input, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 14:39:14] [exit] message=Claude is waiting for your input, session_id=9002a387-63a9-46e2-b0dc-c1e7d2e8e48b
+[2026-03-04 15:00:05] [start] message=, session_id=
+[2026-03-04 15:00:05] [parsed] message=Claude Code needs your attention, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:00:05] [sending_notification] message=Claude Code needs your attention, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:00:08] [notification_sent] message=Claude Code needs your attention, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:00:08] [exit] message=Claude Code needs your attention, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:01:22] [start] message=, session_id=
+[2026-03-04 15:01:22] [parsed] message=Claude needs your permission to use Bash, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:01:22] [sending_notification] message=Claude needs your permission to use Bash, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:01:25] [notification_sent] message=Claude needs your permission to use Bash, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:01:25] [exit] message=Claude needs your permission to use Bash, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:02:46] [start] message=, session_id=
+[2026-03-04 15:02:46] [parsed] message=Claude needs your permission to use Write, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:02:46] [sending_notification] message=Claude needs your permission to use Write, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:02:49] [notification_sent] message=Claude needs your permission to use Write, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 15:02:49] [exit] message=Claude needs your permission to use Write, session_id=27bb6d80-0064-493d-9bc0-ff6683892c79
+[2026-03-04 16:59:40] [start] message=, session_id=
+[2026-03-04 16:59:40] [parsed] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 16:59:40] [sending_notification] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 16:59:43] [notification_sent] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 16:59:43] [exit] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:00:51] [start] message=, session_id=
+[2026-03-04 17:00:51] [parsed] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:00:51] [sending_notification] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:00:54] [notification_sent] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:00:54] [exit] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:06:47] [start] message=, session_id=
+[2026-03-04 17:06:47] [parsed] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:06:47] [sending_notification] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:06:50] [notification_sent] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:06:50] [exit] message=Claude needs your permission to use Bash, session_id=3ee691c9-e483-4f14-bd5a-494a58bf0a28
+[2026-03-04 17:13:38] [start] message=, session_id=
+[2026-03-04 17:13:38] [parsed] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:13:38] [sending_notification] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:13:40] [notification_sent] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:13:40] [exit] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:22:35] [start] message=, session_id=
+[2026-03-04 17:22:35] [parsed] message=Claude needs your permission to use Bash, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:22:35] [sending_notification] message=Claude needs your permission to use Bash, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:22:39] [notification_sent] message=Claude needs your permission to use Bash, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:22:39] [exit] message=Claude needs your permission to use Bash, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:25:06] [start] message=, session_id=
+[2026-03-04 17:25:06] [parsed] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:25:06] [sending_notification] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:25:09] [notification_sent] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:25:09] [exit] message=Claude Code needs your attention, session_id=7ebf76ca-130d-4e88-ada1-084000def87e
+[2026-03-04 17:38:30] [start] message=, session_id=
+[2026-03-04 17:38:30] [parsed] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:38:30] [sending_notification] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:38:33] [notification_sent] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:38:33] [exit] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:43:20] [start] message=, session_id=
+[2026-03-04 17:43:20] [parsed] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:43:20] [sending_notification] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:43:24] [notification_sent] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:43:24] [exit] message=Claude needs your permission to use Bash, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:45:12] [start] message=, session_id=
+[2026-03-04 17:45:12] [parsed] message=Claude is waiting for your input, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:45:12] [sending_notification] message=Claude is waiting for your input, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:45:16] [notification_sent] message=Claude is waiting for your input, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:45:16] [exit] message=Claude is waiting for your input, session_id=ee700985-0463-4d2a-a47a-4442f38af480
+[2026-03-04 17:54:01] [start] message=, session_id=
+[2026-03-04 17:54:01] [parsed] message=Claude needs your permission to use Update, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:54:01] [sending_notification] message=Claude needs your permission to use Update, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:54:04] [notification_sent] message=Claude needs your permission to use Update, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:54:04] [exit] message=Claude needs your permission to use Update, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:55:59] [start] message=, session_id=
+[2026-03-04 17:55:59] [parsed] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:55:59] [sending_notification] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:56:01] [notification_sent] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:56:01] [exit] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:58:30] [start] message=, session_id=
+[2026-03-04 17:58:30] [parsed] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:58:30] [sending_notification] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:58:33] [notification_sent] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c
+[2026-03-04 17:58:33] [exit] message=Claude is waiting for your input, session_id=6fddc3ee-540d-4843-8a9f-b78f866dea2c

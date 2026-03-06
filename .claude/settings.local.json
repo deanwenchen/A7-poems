@@ -29,7 +29,18 @@
       "Bash(for dir in D:/Claude/PullRequest/awesome-claude-code-subagents/categories/*/)",
       "Bash(do cp:*)",
       "Bash(done)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(claude /plugin update:*)",
+      "Bash(claude /plugin:*)",
+      "Bash(claude plugin --help:*)",
+      "Bash(claude plugin update:*)",
+      "Bash(claude plugin:*)",
+      "Bash(echo:*)",
+      "Bash(bash:*)"
+    ],
+	  "deny": [
+      "Read(./config.json)",
+      "Read(./configproject/**)"
     ]
   }
 }
